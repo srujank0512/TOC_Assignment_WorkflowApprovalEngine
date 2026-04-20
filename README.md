@@ -41,5 +41,3 @@ http://localhost:8000
 - **Input symbol / action** = reviewer or system action
 - **Transition** = legal movement from one state to another
 - **Accepting / terminal state** = final decision state
-
-This makes the project both practical and strongly connected to Theory of Computation.
