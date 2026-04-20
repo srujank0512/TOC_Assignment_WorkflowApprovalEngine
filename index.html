@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workflow Approval Engine | ToC DFA Simulator</title>
+    <meta
+      name="description"
+      content="Workflow Approval Engine modeled as a deterministic finite automaton with a professional dashboard and synchronized DFA simulation."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow glow-a"></div>
+    <div class="bg-glow glow-b"></div>
+    <div class="bg-glow glow-c"></div>
+
+    <div class="page-shell">
+      
+      <header class="hero panel">
+        <div class="hero-copy hero-full">
+          <div class="hero-badges">
+            <span class="badge badge-strong">Theory of Computation</span>
+            <span class="badge">Deterministic Workflow Automaton</span>
+          </div>
+          <h1>Workflow Approval Engine</h1>
+          <p class="hero-text">
+            A professional workflow dashboard where every request behaves like a
+            <strong>deterministic finite automaton</strong>. Use the control center to
+            move workflow instances through valid transition functions and observe the
+            state changes in the main DFA simulator below.
+          </p>
+          <div class="hero-actions">
+            <a href="#simulator" class="btn btn-primary">Open Simulator</a>
+            <a href="#control-center" class="btn btn-secondary">Go to Control Center</a>
+          </div>
+
+          <div class="metrics-row">
+            <article class="metric-card">
+              <span>Total Requests</span>
+              <strong id="hero-total">0</strong>
+            </article>
+            <article class="metric-card">
+              <span>Approved</span>
+              <strong id="hero-approved">0</strong>
+            </article>
+            <article class="metric-card">
+              <span>Under Review / Escalated</span>
+              <strong id="hero-active">0</strong>
+            </article>
+            <article class="metric-card">
+              <span>Selected State</span>
+              <strong id="hero-selected">None</strong>
+            </article>
+          </div>
+        </div>
+      </header>
+
+
+      <main class="dashboard">
+        <section class="kpi-grid">
+          <article class="panel kpi-card">
+            <span class="eyebrow">Performance</span>
+            <h3>Approval Rate</h3>
+            <strong id="approval-rate">0%</strong>
+            <p>Percentage of requests currently present in the approved state.</p>
+          </article>
+          <article class="panel kpi-card">
+            <span class="eyebrow">Simulation</span>
+            <h3>Transition Count</h3>
+            <strong id="transition-count">0</strong>
+            <p>Total number of workflow transitions recorded in the execution log.</p>
+          </article>
+          <article class="panel kpi-card">
+            <span class="eyebrow">Current State</span>
+            <h3>Selected Request</h3>
+            <strong id="summary-current">None</strong>
+            <p>The DFA node currently highlighted for the selected workflow instance.</p>
+          </article>
+          <article class="panel kpi-card highlight-card">
+            <span class="eyebrow">System Focus</span>
+            <h3>Active Reviews</h3>
+            <strong id="active-reviews">0</strong>
+            <p>Requests in review-oriented states that still need progression.</p>
+          </article>
+        </section>
+
+        
+        <section class="workspace top-workspace">
+          <article class="panel form-panel">
+            <div class="section-head compact">
+              <div>
+                <span class="eyebrow">Create Instance</span>
+                <h2>New workflow request</h2>
+              </div>
+            </div>
+            <form id="request-form" class="request-form">
+              <label>
+                Requester Name
+                <input type="text" id="requester-name" placeholder="e.g. Aarav Rao" required />
+              </label>
+              <label>
+                Workflow Type
+                <select id="workflow-type">
+                  <option>Leave Request</option>
+                  <option>Purchase Approval</option>
+                  <option>Scholarship Review</option>
+                  <option>Complaint Resolution</option>
+                  <option>Equipment Access</option>
+                  <option>Travel Approval</option>
+                </select>
+              </label>
+              <label>
+                Title
+                <input type="text" id="request-title" placeholder="e.g. Robotics Lab Sensor Kit" required />
+              </label>
+              <label>
+                Priority
+                <select id="request-priority">
+                  <option>Low</option>
+                  <option selected>Medium</option>
+                  <option>High</option>
+                  <option>Urgent</option>
+                </select>
+              </label>
+              <label class="full-span">
+                Details
+                <textarea id="request-details" rows="4" placeholder="Add a short description for the workflow request" required></textarea>
+              </label>
+              <div class="form-actions full-span">
+                <button type="submit" class="btn btn-primary">Create Request</button>
+                <button type="button" class="btn btn-secondary" id="reset-demo-btn">Restore Demo Data</button>
+              </div>
+              <p class="form-note full-span">Every newly created request enters the machine in the Submitted state.</p>
+            </form>
+          </article>
+
+          <article class="panel toc-panel" id="toc-mapping">
+            <div class="section-head">
+              <div>
+                <span class="eyebrow">Formal Mapping</span>
+                <h2>How the workflow maps to ToC</h2>
+              </div>
+            </div>
+
+            <div class="mapping-grid">
+              <div class="mapping-item">
+                <span>State Set (Q)</span>
+                <p>{ Submitted, Under Review, Escalated, Approved, Rejected, Reopened }</p>
+              </div>
+              <div class="mapping-item">
+                <span>Input Alphabet (Σ)</span>
+                <p>{ review, escalate, approve, reject, reopen, resubmit }</p>
+              </div>
+              <div class="mapping-item">
+                <span>Start State</span>
+                <p>Every new request begins in <strong>Submitted</strong>.</p>
+              </div>
+              <div class="mapping-item">
+                <span>Transition Function (δ)</span>
+                <p>Each control button applies exactly one valid transition from the current state.</p>
+              </div>
+              <div class="mapping-item">
+                <span>Outcome States</span>
+                <p><strong>Approved</strong> and <strong>Rejected</strong> act as outcome states until reopened.</p>
+              </div>
+              <div class="mapping-item">
+                <span>Simulation Trace</span>
+                <p>The current state, latest edge, and complete visited-state journey are shown live.</p>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="sim-control-grid">
+          <article class="panel control-panel" id="control-center">
+            <div class="section-head compact">
+              <div>
+                <span class="eyebrow">Control Center</span>
+                <h2>Selected request controls</h2>
+              </div>
+              <span class="state-chip neutral" id="current-state-chip">No Selection</span>
+            </div>
+
+            <div id="selected-request" class="selected-request"></div>
+
+            <div class="button-grid">
+              <button type="button" class="btn btn-secondary" id="run-demo-path">Auto Path</button>
+              <button type="button" class="btn btn-secondary" id="pause-demo">Pause</button>
+              <button type="button" class="btn btn-secondary" id="step-next">Next Valid Step</button>
+              <button type="button" class="btn btn-secondary" id="reset-selected">Reset Selected</button>
+            </div>
+
+            <div id="control-buttons" class="dynamic-actions"></div>
+
+            <div class="journey-block">
+              <div class="journey-head">
+                <div>
+                  <span class="eyebrow">Execution Trace</span>
+                  <h3>Visited states</h3>
+                </div>
+              </div>
+              <div class="journey-track" id="journey-track"></div>
+            </div>
+          </article>
+
+          <article class="panel simulator-panel" id="simulator">
+            <div class="section-head">
+              <div>
+                <span class="eyebrow">Main DFA View</span>
+                <h2>DFA visualization</h2>
+              </div>
+              <div class="legend">
+                <span><i class="legend-dot active"></i>Active</span>
+                <span><i class="legend-dot latest"></i>Latest transition</span>
+                <span><i class="legend-dot final"></i>Outcome</span>
+              </div>
+            </div>
+
+            <div class="machine-svg-wrap">
+              <svg id="main-dfa" class="workflow-svg" viewBox="0 0 1440 420" aria-label="Workflow DFA simulator"></svg>
+            </div>
+
+            <div class="rule-band">
+              <div>
+                <span class="rule-label">Transition rules</span>
+                <p>
+                  Submitted → Under Review · Under Review → Escalated / Approved / Rejected ·
+                  Escalated → Under Review / Approved / Rejected · Approved / Rejected → Reopened ·
+                  Reopened → Submitted
+                </p>
+              </div>
+              <div class="rule-chips">
+                <span class="footer-chip">Deterministic transitions</span>
+                <span class="footer-chip">No overlapping arrows</span>
+                <span class="footer-chip">Horizontal DFA layout</span>
+              </div>
+            </div>
+          </article>
+        </section>
+<section class="bottom-grid">
+          <article class="panel requests-panel">
+            <div class="section-head compact">
+              <div>
+                <span class="eyebrow">Request Explorer</span>
+                <h2>Workflow instances</h2>
+              </div>
+              <div class="filter-row">
+                <select id="filter-type"></select>
+                <select id="filter-state"></select>
+              </div>
+            </div>
+            <div class="request-list" id="request-list"></div>
+          </article>
+
+          <article class="panel history-panel">
+            <div class="section-head compact">
+              <div>
+                <span class="eyebrow">Recent Activity</span>
+                <h2>Transition history</h2>
+              </div>
+            </div>
+            <div id="history-list" class="history-list"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <template id="request-card-template">
+      <button class="request-item" type="button">
+        <div class="request-item-top">
+          <span class="request-id"></span>
+          <span class="priority-pill"></span>
+        </div>
+        <h3 class="request-item-title"></h3>
+        <p class="request-item-subtitle"></p>
+        <div class="request-item-bottom">
+          <span class="state-chip"></span>
+          <span class="request-arrow">→</span>
+        </div>
+      </button>
+    </template>
+
+    <script src="script.js"></script>
+  </body>
+</html>
