@@ -36,11 +36,6 @@ Then open:
 http://localhost:8000
 ```
 
-## Deploy on Vercel
-1. Upload the folder to GitHub or drag-drop it into Vercel.
-2. Since this is a static project, no build command is required.
-3. Deploy directly.
-
 ## ToC Explanation
 - **State** = current status of a request
 - **Input symbol / action** = reviewer or system action
